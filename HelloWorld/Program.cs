@@ -61,7 +61,7 @@ namespace HelloWorld
                     }
                     default:
                     {
-                         throw new Exception("Hello World Selelection Not implemented");
+                         throw new Exception("Hello World Selection Not implemented");
                     }
                 }
             }
