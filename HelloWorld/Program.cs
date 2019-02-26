@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +14,24 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("No arguments passed. Usage: HelloWorld.exe outputOption. ==> For Console output example: HelloWorld 1 ");
-                return;
-            }
+            string outputSelect = string.Empty;
 
-            int selectedType = 0;
-            if (!int.TryParse(args[0], out selectedType))
+            if (ConfigurationManager.AppSettings.AllKeys.Contains("OutputMode"))
             {
-                Console.WriteLine("Invalid outputType. Must be 1 (Console), 2 (Database), or 3 (File). ");
-                return;
+                outputSelect = ConfigurationManager.AppSettings["OutputMode"];
+            }
+           
+            if (string.IsNullOrEmpty(outputSelect))
+            {
+                Console.WriteLine("OutputMode key configuration is missing. Must be 1 (Console), 2 (Database), or 3 (File). Defaulting to 1 (Console). ");
+                outputSelect = "1";
+            }
+         
+            int selectedType = 0;
+            if (!int.TryParse(outputSelect, out selectedType))
+            {
+                Console.WriteLine("Invalid OutputMode. Must be 1 (Console), 2 (Database), or 3 (File). Please check settings. Defaulting to 1 (Console)");
+                outputSelect = "1";
             }
             else
             {
